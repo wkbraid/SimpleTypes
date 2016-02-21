@@ -9,6 +9,14 @@ syntax "[" [var] "/" [val] "]" [term] = substitute var val term
 
 ||| substitute defines substition over terms
 substitute : Variable -> Term -> Term -> Term
+substitute x val (Var y) = case decEq x y of
+                                Yes _ => val
+                                No _ => Var y
+substitute x val (Lam y type body) = case decEq x y of
+                                          Yes _ => Lam y type body -- shadowing
+                                          No _ => Lam y type ([x / val] body)
+substitute x val (App left right) = App ([x / val] left) ([x / val] right)
+substitute x val Unit = Unit
 
 
 

@@ -39,12 +39,12 @@ data Value : Term -> Type where
 Context : Type
 Context = List (Variable, SimpleType)
 
-syntax "[" [ctx] "|-" [term] ":" [type] "]" = TypeOf ctx term type
+syntax "{" [ctx] "|-" [term] ":" [type] "}" = TypeOf ctx term type
 
 ||| TypeOf defines the internal typing relation
 data TypeOf : Context -> Term -> SimpleType -> Type where
-  TVar : (x, type) `In` ctx -> [ ctx |- (Var x) : type ]
-  TAbs : [ ((x,type1) :: ctx) |- term : type2 ] -> [ ctx |- (Lam x type1 term) : type2 ] 
-  TApp : [ ctx |- term1 : (ARR type1 type2) ] -> [ ctx |- term2 : type1] -> [ ctx |- (App term1 term2) : type2 ]
+  TVar : (x, type) `In` ctx -> { ctx |- (Var x) : type }
+  TAbs : { ((x,type1) :: ctx) |- term : type2 } -> { ctx |- (Lam x type1 term) : type2 }
+  TApp : { ctx |- term1 : (ARR type1 type2) } -> { ctx |- term2 : type1 } -> { ctx |- (App term1 term2) : type2 }
 
-  TUnit : [ ctx |- Unit : UNIT ]
+  TUnit : { ctx |- Unit : UNIT }

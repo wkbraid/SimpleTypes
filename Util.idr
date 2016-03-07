@@ -1,5 +1,17 @@
 module Util
+import Data.Vect
+import Data.Fin
+
+
 %default total
+
+
+||| At defines propositional indexing into vectors
+data At : Fin n -> Vect n a -> a -> Type where
+  Stop : At FZ (x::xs) x
+  Pop  : At idx xs x -> At (FS idx) (u::xs) x
+
+
 
 ||| In defines propositional membership for Lists
 data In : a -> List a -> Type where

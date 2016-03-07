@@ -17,6 +17,7 @@ substitute x val (Lam y type body) = case decEq x y of
                                           No _ => Lam y type ([x / val] body)
 substitute x val (App left right) = App ([x / val] left) ([x / val] right)
 substitute x val Unit = Unit
+-- TODO: definitely includes variable capture
 
 
 
@@ -26,8 +27,8 @@ syntax [a] "=>>*" [b] = MultiStep SmallStep a b
 ||| SmallStep is the small step evaluation relation
 data SmallStep : Term -> Term -> Type where
   EApp1 : (left1 =>> left2) -> (App left1 right) =>> (App left2 right)
-  EApp2 : (right1 =>> right2) -> (App left right1) =>> (App left right2)
-  EAppAbs : (App (Lam x type body) arg) =>> [x / arg] body
+  EApp2 : Value left -> (right1 =>> right2) -> (App left right1) =>> (App left right2)
+  EAppAbs : Value arg -> (App (Lam x type body) arg) =>> [x / arg] body
 
 
 

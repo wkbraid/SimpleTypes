@@ -6,6 +6,11 @@ data In : a -> List a -> Type where
   Here : In x (x :: xs)
   There : In x xs -> In x (y :: xs)
 
+inEmpty : x `In` [] -> a
+inEmpty Here impossible
+inEmpty (There _) impossible
+
+
 ||| Relation is a Definition of a relation over a single type
 Relation : Type -> Type
 Relation a = a -> a -> Type

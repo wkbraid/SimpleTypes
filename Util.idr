@@ -8,8 +8,8 @@ import Data.Fin
 
 ||| At defines propositional indexing into vectors
 data At : Fin n -> Vect n a -> a -> Type where
-  Stop : At FZ (x::xs) x
-  Pop  : At idx xs x -> At (FS idx) (u::xs) x
+  Stop : At FZ (hd::tl) hd
+  Pop  : At k tl x -> At (FS k) (u::tl) x
 
 
 

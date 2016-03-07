@@ -1,6 +1,5 @@
 module Simple.Syntax
 import Data.Vect
-import Data.Fin
 import Util
 
 %default total
@@ -13,7 +12,7 @@ data Ty : Type where
 
 ||| Expr defines internal syntax in terms of number of free variables
 data Expr : Vect n Ty -> Ty -> Type where
-  Var : At idx ctx t -> Expr ctx t
+  Var : At k ctx t -> Expr ctx t
   Lam : Expr (t1 :: ctx) t2 -> Expr ctx (t1 `ARR` t2)
   App : Expr ctx (t1 `ARR` t2) -> Expr ctx t1 -> Expr ctx t2
 
